@@ -1,0 +1,21 @@
+{
+  "name": "it-support-assistant",
+  "version": "0.0.1",
+  "description": "Whatsapp IT Support Assistant",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "whatsapp",
+    "it-support",
+    "assistant",
+    "bot"
+  ],
+  "author": "murilo-henrique060",
+  "license": "MIT",
+  "dependencies": {
+    "whatsapp-web.js": "^1.21.0"
+  }
+}
