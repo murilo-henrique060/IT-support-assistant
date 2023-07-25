@@ -1,3 +1,7 @@
+# wwebjs files
+.wwebjs_auth
+.wwebjs_cache
+
 # VsCode files
 .vscode
 

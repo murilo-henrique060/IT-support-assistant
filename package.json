@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "start-no-auth": "SET AUTH=false && node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -16,6 +17,7 @@
   "author": "murilo-henrique060",
   "license": "MIT",
   "dependencies": {
+    "qrcode-terminal": "^0.12.0",
     "whatsapp-web.js": "^1.21.0"
   }
 }
