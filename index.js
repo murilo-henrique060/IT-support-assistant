@@ -24,7 +24,7 @@ client.on('authenticated', () => {
 });
 
 client.on('auth_failure', () => {
-    console.log('Authentication Failed', session);
+    console.log('Authentication Failed');
 });
 
 client.on('ready', () => {
@@ -32,9 +32,7 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-    if (msg.body == '!ping') {
-        msg.reply('pong');
-    }
+    client.sendMessage(msg.from, 'Olá, eu sou um bot!');
 });
 
 client.initialize();
