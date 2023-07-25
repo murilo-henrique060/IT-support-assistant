@@ -1,2 +1,2 @@
 # IT-support-assistant
-whatsapp IT support assistant
+Whatsapp IT Support Assistant
