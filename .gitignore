@@ -5,6 +5,9 @@
 # VsCode files
 .vscode
 
+# Debug files
+debug-users.json
+
 # Logs
 logs
 *.log

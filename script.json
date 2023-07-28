@@ -1,0 +1,49 @@
+[
+    {
+        "type": "text",
+        "text": "Olá, sou o assistente virtual da RBA."
+    },
+    {
+        "type": "select",
+        "text": "Selecione uma categoria para prosseguir:",
+        "dest": "category",
+        "options": [
+            "Totus",
+            "Sistema de Gestor"
+        ]
+    },
+    {
+        "type": "selectByKey",
+        "text": "Selecione um dos atendentes disponíveis:",
+        "key": "category",
+        "dest": "person",
+        "options": {
+            "Totus": [
+                "Murilo Henrique",
+                "Henrique Belem",
+                "Joao Miguel"
+            ],
+            "Sistema de Gestor": [
+                "Erick Holles",
+                "Pedro Mendes",
+                "Lucas Chagas"
+            ]
+        }
+    },
+    {
+        "type": "contactOfKey",
+        "key": "person",
+        "options": {
+            "Murilo Henrique": "559192495001",
+            "Henrique Belem": "559182579370",
+            "Joao Miguel": "559184793658",
+            "Erick Holles": "559180321058",
+            "Pedro Mendes": "559191815174",
+            "Lucas Chagas": "559185200450"
+        }
+    },
+    {
+        "type": "text",
+        "text": "Atendimento encerrado. Obrigado por entrar em contato."
+    }
+]
