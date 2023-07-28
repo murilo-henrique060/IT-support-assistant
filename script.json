@@ -14,7 +14,7 @@
     },
     {
         "type": "selectByKey",
-        "text": "Selecione um dos atendentes disponíveis:",
+        " atendetext": "Selecione um dosntes disponíveis:",
         "key": "category",
         "dest": "person",
         "options": {

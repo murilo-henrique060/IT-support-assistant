@@ -1,6 +1,6 @@
 {
   "name": "it-support-assistant",
-  "version": "0.0.1",
+  "version": "0.1.2",
   "description": "Whatsapp IT Support Assistant",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,8 @@
     "start-fresh": "rm -rf ./.wwebjs_auth && node index.js",
     "start-no-auth": "export AUTH=false && node index.js",
     "debug": "export DEBUG=true && node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "debug-no-auth": "export DEBUG=true && export AUTH=false && node index.js",
+    "debug-fresh": "export DEBUG=true && rm -rf ./.wwebjs_auth ./.wwebjs_cache && node index.js"
   },
   "keywords": [
     "whatsapp",
