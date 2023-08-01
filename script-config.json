@@ -1,0 +1,114 @@
+{
+    "script": [
+        {
+            "type": "text",
+            "text": "Olá, sou o assistente virtual da RBA."
+        },
+        {
+            "type": "select",
+            "text": "Selecione uma categoria para prosseguir:",
+            "dest": "category",
+            "options": [
+                "Categoria 1",
+                "Categoria 2",
+                "Categoria 3"
+            ]
+        },
+        {
+            "type": "select",
+            "text": "Especifique seu problema:",
+            "key": "category",
+            "dest": "problem",
+            "options": {
+                "Categoria 1": [
+                    "Problema 1",
+                    "Problema 2",
+                    "Problema 3"                
+                ],
+                "Categoria 2": [
+                    "Problema 4",
+                    "Problema 5"                
+                ],
+                "Categoria 3": [
+                    "Problema 6",
+                    "Problema 7",
+                    "Problema 8",
+                    "Problema 9"
+                ]
+            }
+        },
+        {
+            "type": "select",
+            "text": "Selecione um dos atendentes disponíveis:",
+            "key": "problem",
+            "dest": "person",
+            "options": {
+                "Problema 1": [
+                    "Pessoa 1",
+                    "Pessoa 2",
+                    "Pessoa 4"
+                ],
+                "Problema 2": [
+                    "Pessoa 3",
+                    "Pessoa 5",
+                    "Pessoa 6"
+                ],
+                "Problema 3": [
+                    "Pessoa 1",
+                    "Pessoa 2",
+                    "Pessoa 3",
+                    "Pessoa 4",
+                    "Pessoa 5",
+                    "Pessoa 6"
+                ],
+                "Problema 4": [
+                    "Pessoa 1",
+                    "Pessoa 5",
+                    "Pessoa 6"
+                ],
+                "Problema 5": [
+                    "Pessoa 2",
+                    "Pessoa 3",
+                    "Pessoa 4",
+                    "Pessoa 5"
+                ],
+                "Problema 6": [
+                    "Pessoa 2",
+                    "Pessoa 3",
+                    "Pessoa 6"
+                ],
+                "Problema 7": [
+                    "Pessoa 2",
+                    "Pessoa 4",
+                    "Pessoa 6"
+                ],
+                "Problema 8": [
+                    "Pessoa 1",
+                    "Pessoa 2",
+                    "Pessoa 3",
+                    "Pessoa 6"
+                ],
+                "Problema 9": [
+                    "Pessoa 5",
+                    "Pessoa 6"
+                ]
+            }
+        },
+        {
+            "type": "contact",
+            "key": "person",
+            "number": {
+                "Pessoa 1": "559192495001",
+                "Pessoa 2": "559182579370",
+                "Pessoa 3": "559184793658",
+                "Pessoa 4": "559180321058",
+                "Pessoa 5": "559191815174",
+                "Pessoa 6": "559185200450"
+            }
+        },
+        {
+            "type": "text",
+            "text": "Atendimento encerrado. Obrigado por entrar em contato."
+        }
+    ]
+}

@@ -1,24 +1,27 @@
 const { Client, LocalAuth } = require('whatsapp-web.js');
-const { Support } = require('./support.js');
+const { SupportScript } = require('./support-script/support-script.js');
 const qrcode = require('qrcode-terminal');
-
-var debug_users = require('./debug-users.json');
 
 const AUTH = !(process.env.AUTH === 'true');
 const DEBUG = (process.env.DEBUG === 'true');
 
-let client = null;
+let script_config = require('./script-config.json');
+
+if (DEBUG) {
+    var debug_users = require('./debug-users.json');
+}
 
 let supports = new Map;
 
-if (AUTH) {
-    client = new Client({
-        authStrategy: new LocalAuth()
-    });
+let client_options = {};
 
-} else {
-    client = new Client();
+if (AUTH) {
+    client_options = {
+        authStrategy: new LocalAuth()
+    };
 }
+
+let client = new Client(client_options);
 
 client.on('qr', (qr) => {
     console.log('Scan the QR code to login.');
@@ -42,14 +45,11 @@ client.on('message', async msg => {
         }
     }
 
-    let done = false;
-
-    if (supports.has(msg.from)) {
-        done = await supports.get(msg.from).on_message(msg);
-    } else {
-        supports.set(msg.from, new Support(msg, client));
-        done = await supports.get(msg.from).on_message(msg);
+    if (!supports.has(msg.from)) {
+        supports.set(msg.from, new SupportScript(client, msg.from, script_config));
     }
+    
+    let done = await supports.get(msg.from).run(msg);
 
     if (done) {
         supports.delete(msg.from);

@@ -5,11 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "start-fresh": "rm -rf ./.wwebjs_auth && node index.js",
     "start-no-auth": "export AUTH=false && node index.js",
     "debug": "export DEBUG=true && node index.js",
     "debug-no-auth": "export DEBUG=true && export AUTH=false && node index.js",
-    "debug-fresh": "export DEBUG=true && rm -rf ./.wwebjs_auth ./.wwebjs_cache && node index.js"
+    "reset": "rm -rf ./.wwebjs_auth ./.wwebjs_cache"
   },
   "keywords": [
     "whatsapp",
