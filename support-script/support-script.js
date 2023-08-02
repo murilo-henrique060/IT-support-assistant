@@ -4,8 +4,9 @@ const { Select } = require("./select");
 const { Contact } = require("./contact");
 
 class SupportScript {
-    constructor(client, id, scriptConfig) {
+    constructor(client, id, scriptConfig, supportQueue) {
         this.client = client;
+        this.queue = supportQueue;
         this.id = id;
         this.number = client.getFormattedNumber(id);
 
@@ -17,7 +18,30 @@ class SupportScript {
         this.listening = false;
         this.script_counter = 0;
 
+        this.timeout_timer = scriptConfig.timeout || 5;
+        this.timeout_message = scriptConfig.timeout_message || 'Você demorou muito para responder. Por favor, inicie o atendimento novamente.';
+
+        this.timeout = null;
+
         this.load(scriptConfig);
+        
+        this.startTimeout();
+    }
+
+    startTimeout() {
+        this.timeout = setTimeout(() => {
+            this.client.sendMessage(this.id, this.timeout_message);
+            this.queue.delete(this.id);
+        }, this.timeout_timer * 60 * 1000);
+    }
+
+    resetTimeout() {
+        this.closeTimeout();
+        this.startTimeout();
+    }
+
+    closeTimeout() {
+        clearTimeout(this.timeout);
     }
 
     load(scriptConfig) {
@@ -45,6 +69,8 @@ class SupportScript {
     }
 
     async run(msg) {
+        this.resetTimeout();
+
         let step = this.script[this.script_counter];
 
         if (this.listening) {

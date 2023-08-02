@@ -46,12 +46,13 @@ client.on('message', async msg => {
     }
 
     if (!supports.has(msg.from)) {
-        supports.set(msg.from, new SupportScript(client, msg.from, script_config));
+        supports.set(msg.from, new SupportScript(client, msg.from, script_config, supports));
     }
     
     let done = await supports.get(msg.from).run(msg);
 
     if (done) {
+        supports.get(msg.from).closeTimeout();
         supports.delete(msg.from);
     }
 });

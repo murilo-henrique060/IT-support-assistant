@@ -1,4 +1,5 @@
 {
+    "timeout": 1,
     "script": [
         {
             "type": "text",
