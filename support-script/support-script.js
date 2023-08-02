@@ -16,10 +16,10 @@ class SupportScript {
         this.variables = {};
 
         this.listening = false;
-        this.script_counter = 0;
+        this.scriptCounter = 0;
 
-        this.timeout_timer = scriptConfig.timeout || 5;
-        this.timeout_message = scriptConfig.timeout_message || 'Você demorou muito para responder. Por favor, inicie o atendimento novamente.';
+        this.timeoutTimer = scriptConfig.timeout || 5;
+        this.timeoutMessage = scriptConfig.timeout_message || 'Você demorou muito para responder. Por favor, inicie o atendimento novamente.';
 
         this.timeout = null;
 
@@ -30,9 +30,9 @@ class SupportScript {
 
     startTimeout() {
         this.timeout = setTimeout(() => {
-            this.client.sendMessage(this.id, this.timeout_message);
+            this.client.sendMessage(this.id, this.timeoutMessage);
             this.queue.delete(this.id);
-        }, this.timeout_timer * 60 * 1000);
+        }, this.timeoutTimer * 60 * 1000);
     }
 
     resetTimeout() {
@@ -66,24 +66,26 @@ class SupportScript {
                     break;
             }
         }
+
+        return this.script;
     }
 
     async run(msg) {
         this.resetTimeout();
 
-        let step = this.script[this.script_counter];
+        let step = this.script[this.scriptCounter];
 
         if (this.listening) {
             step.input(msg);
         }
         
-        while (this.script_counter < this.script.length && !this.listening) {
-            step = this.script[this.script_counter];
+        while (this.scriptCounter < this.script.length && !this.listening) {
+            step = this.script[this.scriptCounter];
 
             await step.run();
         }
 
-        let finished = this.script_counter >= this.script.length;
+        let finished = this.scriptCounter >= this.script.length;
 
         return finished;
     }

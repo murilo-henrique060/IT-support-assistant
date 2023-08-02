@@ -1,9 +1,10 @@
 {
-    "timeout": 1,
+    "timeout": 5,
+    "timeout_message": "O tempo de espera expirou. Por favor, tente novamente.",
     "script": [
         {
             "type": "text",
-            "text": "Olá, sou o assistente virtual da RBA."
+            "text": "Olá, sou um assistente virtual"
         },
         {
             "type": "select",
@@ -99,12 +100,12 @@
             "type": "contact",
             "key": "person",
             "number": {
-                "Pessoa 1": "559192495001",
-                "Pessoa 2": "559182579370",
-                "Pessoa 3": "559184793658",
-                "Pessoa 4": "559180321058",
-                "Pessoa 5": "559191815174",
-                "Pessoa 6": "559185200450"
+                "Pessoa 1": "31972280540",
+                "Pessoa 2": "31972280540",
+                "Pessoa 3": "31972280540",
+                "Pessoa 4": "31972280540",
+                "Pessoa 5": "31972280540",
+                "Pessoa 6": "31972280540"
             }
         },
         {

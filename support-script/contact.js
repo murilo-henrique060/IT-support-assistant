@@ -17,7 +17,7 @@ class Contact {
         let contact = await this.script.client.getContactById(numberId._serialized);
         await this.script.client.sendMessage(this.script.id, contact);
 
-        this.script.script_counter++;
+        this.script.scriptCounter++;
     }
 }
 
