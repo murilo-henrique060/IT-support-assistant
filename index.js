@@ -52,8 +52,7 @@ client.on('message', async msg => {
     let done = await supports.get(msg.from).run(msg);
 
     if (done) {
-        supports.get(msg.from).closeTimeout();
-        supports.delete(msg.from);
+        supports.get(msg.from).close();
     }
 });
 

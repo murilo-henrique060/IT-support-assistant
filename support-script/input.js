@@ -17,7 +17,7 @@ class Input {
         this.script.variables[this.dest] = input;
 
         this.script.listening = false;
-        this.script.script_counter++;
+        this.script.scriptCounter++;
     }
 }
 

@@ -3,12 +3,16 @@ const { Input } = require("./input");
 const { Select } = require("./select");
 const { Contact } = require("./contact");
 
+const fs = require('fs');
+const csv = require('csv-stringify');
+
+const LOG_PATH = process.env.LOG_PATH || 'log.csv';
+
 class SupportScript {
     constructor(client, id, scriptConfig, supportQueue) {
         this.client = client;
         this.queue = supportQueue;
         this.id = id;
-        this.number = client.getFormattedNumber(id);
 
         this.messages = [];
 
@@ -31,7 +35,7 @@ class SupportScript {
     startTimeout() {
         this.timeout = setTimeout(() => {
             this.client.sendMessage(this.id, this.timeoutMessage);
-            this.queue.delete(this.id);
+            this.close();
         }, this.timeoutTimer * 60 * 1000);
     }
 
@@ -73,6 +77,8 @@ class SupportScript {
     async run(msg) {
         this.resetTimeout();
 
+        this.messages.push(msg.body);
+
         let step = this.script[this.scriptCounter];
 
         if (this.listening) {
@@ -88,6 +94,33 @@ class SupportScript {
         let finished = this.scriptCounter >= this.script.length;
 
         return finished;
+    }
+
+    async close() {
+        this.closeTimeout();
+        
+        let dC = new Date();
+
+        let day = dC.getDate().toString().padStart(2, '0');
+        let month = dC.getMonth().toString().padStart(2, '0');
+        let year = dC.getFullYear().toString().padStart(4, '0');
+
+        let hour = dC.getHours().toString().padStart(2, '0');
+        let minute = dC.getMinutes().toString().padStart(2, '0');
+        let second = dC.getSeconds().toString().padStart(2, '0');
+
+        let date = `${dC.getFullYear()}-${dC.getMonth()}-${dC.getDate()}`;
+        let time = `${dC.getHours()}:${dC.getMinutes()}:${dC.getSeconds()}`;
+
+        let number = await this.client.getFormattedNumber(this.id);
+
+        let l = [date, time, number, JSON.stringify(this.messages), JSON.stringify(this.variables)];
+
+        csv.stringify([l], (err, output) => {
+            fs.appendFileSync(LOG_PATH, output);
+        });
+
+        this.queue.delete(this.id);
     }
 }
 

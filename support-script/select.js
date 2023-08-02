@@ -10,7 +10,7 @@ class Select {
     }
 
     async run() {
-        let message = this.text + '\n\n';
+        let message = this.text + '\n';
 
         let options = this.options;
 
@@ -32,6 +32,7 @@ class Select {
 
         if (isNaN(input)) {
             await this.script.client.sendMessage(this.script.id, 'Por favor, digite um número.');
+            await this.run();
             return;
         }
 
@@ -45,13 +46,14 @@ class Select {
 
         if (index < 0 || index >= options.length) {
             await this.script.client.sendMessage(this.script.id, 'Por favor, digite um índice válido.');
+            await this.run();
             return;
         }
 
         this.script.variables[this.dest] = options[index];
 
         this.script.listening = false;
-        this.script.script_counter++;
+        this.script.scriptCounter++;
     }
 }
 

@@ -7,7 +7,7 @@ class Text {
 
     async run() {
         await this.script.client.sendMessage(this.script.id, this.text);
-        this.script.script_counter++;
+        this.script.scriptCounter++;
     }
 }
 
