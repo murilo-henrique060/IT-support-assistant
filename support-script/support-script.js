@@ -109,8 +109,8 @@ class SupportScript {
         let minute = dC.getMinutes().toString().padStart(2, '0');
         let second = dC.getSeconds().toString().padStart(2, '0');
 
-        let date = `${dC.getFullYear()}-${dC.getMonth()}-${dC.getDate()}`;
-        let time = `${dC.getHours()}:${dC.getMinutes()}:${dC.getSeconds()}`;
+        let date = `${day}-${month}-${year}`;
+        let time = `${hour}:${minute}:${second}`;
 
         let number = await this.client.getFormattedNumber(this.id);
 
