@@ -96,6 +96,7 @@
                 ]
             }
         },
+
         {
             "type": "contact",
             "key": "person",
@@ -106,6 +107,25 @@
                 "Pessoa 4": "31972280540",
                 "Pessoa 5": "31972280540",
                 "Pessoa 6": "31972280540"
+            }
+        },
+        {
+            "type": "text",
+            "text": "Acesse o link abaixo para entrar em contato com o grupo relacionado ao seu problema:"
+        },
+        {
+            "type": "link",
+            "key": "problem",
+            "text": {
+                "Problema 1": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
+                "Problema 2": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
+                "Problema 3": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
+                "Problema 4": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
+                "Problema 5": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
+                "Problema 6": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
+                "Problema 7": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
+                "Problema 8": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
+                "Problema 9": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg"
             }
         },
         {

@@ -1,4 +1,4 @@
-class Text {
+class Link {
     constructor(script, data) {
         this.script = script;
 
@@ -14,9 +14,9 @@ class Text {
             text = this.text[this.script.variables[this.key]];
         }
 
-        await this.script.client.sendMessage(this.script.id, text);
+        await this.script.client.sendMessage(this.script.id, text, { linkPreview: true });
         this.script.scriptCounter++;
     }
 }
 
-module.exports = { Text };
+module.exports = { Link };

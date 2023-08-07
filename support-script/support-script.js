@@ -1,4 +1,5 @@
 const { Text } = require("./text");
+const { Link } = require("./link");
 const { Input } = require("./input");
 const { Select } = require("./select");
 const { Contact } = require("./contact");
@@ -55,6 +56,10 @@ class SupportScript {
             switch (step.type) {
                 case 'text':
                     this.script.push(new Text(this, step));
+                    break;
+
+                case 'link':
+                    this.script.push(new Link(this, step));
                     break;
 
                 case 'input':
