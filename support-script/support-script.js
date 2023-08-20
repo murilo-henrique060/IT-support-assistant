@@ -119,7 +119,7 @@ class SupportScript {
 
         let number = await this.client.getFormattedNumber(this.id);
 
-        let l = [date, time, number, JSON.stringify(this.messages), JSON.stringify(this.variables)];
+        let l = [date, time, number, this.messages];
 
         csv.stringify([l], (err, output) => {
             fs.appendFileSync(LOG_PATH, output);

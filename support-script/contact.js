@@ -3,6 +3,7 @@ class Contact {
         this.script = script;
 
         this.number = data.number;
+
         this.key = data.key;
     }
 
