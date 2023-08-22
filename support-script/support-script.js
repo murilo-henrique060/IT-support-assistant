@@ -33,6 +33,46 @@ class SupportScript {
         this.startTimeout();
     }
 
+    substituteVariables(data) {
+        if (typeof data === 'object') {
+            if (data instanceof Array) {
+                let response = [];
+    
+                for (let i in data) {
+                    response.push(this.substituteVariables(data[i]));
+                }
+    
+                return response;
+            } else {
+                let response = {};
+    
+                for (let i in data) {
+                    response[this.substituteVariables(i)] = this.substituteVariables(data[i]);
+                }
+    
+                return response;
+            }
+        } else if (typeof data === 'number') {
+            return data;
+        } else if (typeof data === 'string'){
+            let response = [];
+    
+            for (let w of data.split(' ')) {
+                if (w[0] === '$') {
+                    if (this.variables[w]) {
+                        response.push(this.variables[w]);
+                    } else {
+                        response.push(w);
+                    }
+                } else {
+                    response.push(w);
+                }
+            }
+    
+            return response.join(' ');
+        }
+    }
+
     startTimeout() {
         this.timeout = setTimeout(() => {
             this.client.sendMessage(this.id, this.timeoutMessage);
@@ -50,8 +90,12 @@ class SupportScript {
     }
 
     load(scriptConfig) {
+        for (let i in scriptConfig.variables) {
+            this.variables[i] = scriptConfig.variables[i];
+        }
+        
         for (let i = 0; i < scriptConfig.script.length; i++) {
-            let step = scriptConfig.script[i];
+            let step = this.substituteVariables(scriptConfig.script[i]);
 
             switch (step.type) {
                 case 'text':

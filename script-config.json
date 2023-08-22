@@ -1,6 +1,46 @@
 {
     "timeout": 5,
     "timeout_message": "O tempo de espera expirou. Por favor, tente novamente.",
+    "variables": {
+        "$c1": "Categoria 1",
+        "$c2": "Categoria 2",
+        "$c3": "Categoria 3",
+
+        "$p1": "Problema 1",
+        "$p2": "Problema 2",
+        "$p3": "Problema 3",
+        "$p4": "Problema 4",
+        "$p5": "Problema 5",
+        "$p6": "Problema 6",
+        "$p7": "Problema 7",
+        "$p8": "Problema 8",
+        "$p9": "Problema 9",
+
+        "$pe1": "Pessoa 1",
+        "$pe2": "Pessoa 2",
+        "$pe3": "Pessoa 3",
+        "$pe4": "Pessoa 4",
+        "$pe5": "Pessoa 5",
+        "$pe6": "Pessoa 6",
+
+        "$n1": "5531972280540",
+        "$n2": "5531972280540",
+        "$n3": "5531972280540",
+        "$n4": "5531972280540",
+        "$n5": "5531972280540",
+        "$n6": "5531972280540",
+
+        "$gp1": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
+        "$gp2": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
+        "$gp3": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
+        "$gp4": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
+        "$gp5": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
+        "$gp6": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
+        "$gp7": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
+        "$gp8": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
+        "$gp9": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg"
+        
+    },
     "script": [
         {
             "type": "text",
@@ -11,9 +51,9 @@
             "text": "Selecione uma categoria para prosseguir:",
             "dest": "category",
             "options": [
-                "Categoria 1",
-                "Categoria 2",
-                "Categoria 3"
+                "$c1",
+                "$c2",
+                "$c3"
             ]
         },
         {
@@ -22,20 +62,20 @@
             "key": "category",
             "dest": "problem",
             "options": {
-                "Categoria 1": [
-                    "Problema 1",
-                    "Problema 2",
-                    "Problema 3"                
+                "$c1" : [
+                    "$p1",
+                    "$p2",
+                    "$p3"
                 ],
-                "Categoria 2": [
-                    "Problema 4",
-                    "Problema 5"                
+                "$c2" : [
+                    "$p4",
+                    "$p5"
                 ],
-                "Categoria 3": [
-                    "Problema 6",
-                    "Problema 7",
-                    "Problema 8",
-                    "Problema 9"
+                "$c3" : [
+                    "$p6",
+                    "$p7",
+                    "$p8",
+                    "$p9"
                 ]
             }
         },
@@ -45,54 +85,57 @@
             "key": "problem",
             "dest": "person",
             "options": {
-                "Problema 1": [
-                    "Pessoa 1",
-                    "Pessoa 2",
-                    "Pessoa 4"
+                "$p1": [
+                    "$pe1",
+                    "$pe2",
+                    "$pe4"
                 ],
-                "Problema 2": [
-                    "Pessoa 3",
-                    "Pessoa 5",
-                    "Pessoa 6"
+                "$p2": [
+                    "$pe3",
+                    "$pe5",
+                    "$pe6"
                 ],
-                "Problema 3": [
-                    "Pessoa 1",
-                    "Pessoa 2",
-                    "Pessoa 3",
-                    "Pessoa 4",
-                    "Pessoa 5",
-                    "Pessoa 6"
+                "$p3": [
+                    "$pe1",
+                    "$pe2",
+                    "$pe3",
+                    "$pe4",
+                    "$pe5",
+                    "$pe6"
                 ],
-                "Problema 4": [
-                    "Pessoa 1",
-                    "Pessoa 5",
-                    "Pessoa 6"
+                "$p4": [
+                    "$pe1",
+                    "$pe2",
+                    "$pe3",
+                    "$pe4",
+                    "$pe5",
+                    "$pe6"
                 ],
-                "Problema 5": [
-                    "Pessoa 2",
-                    "Pessoa 3",
-                    "Pessoa 4",
-                    "Pessoa 5"
+                "$p5": [
+                    "$pe2",
+                    "$pe3",
+                    "$pe4",
+                    "$pe5"
+                ],                
+                "$p6": [
+                    "$pe2",
+                    "$pe3",
+                    "$pe6"
                 ],
-                "Problema 6": [
-                    "Pessoa 2",
-                    "Pessoa 3",
-                    "Pessoa 6"
+                "$p7": [
+                    "$pe2",
+                    "$pe4",
+                    "$pe6"
                 ],
-                "Problema 7": [
-                    "Pessoa 2",
-                    "Pessoa 4",
-                    "Pessoa 6"
+                "$p8": [
+                    "$pe1",
+                    "$pe2",
+                    "$pe3",
+                    "$pe6"
                 ],
-                "Problema 8": [
-                    "Pessoa 1",
-                    "Pessoa 2",
-                    "Pessoa 3",
-                    "Pessoa 6"
-                ],
-                "Problema 9": [
-                    "Pessoa 5",
-                    "Pessoa 6"
+                "$p9": [
+                    "$pe5",
+                    "$pe6"
                 ]
             }
         },
@@ -101,12 +144,12 @@
             "type": "contact",
             "key": "person",
             "number": {
-                "Pessoa 1": "5531972280540",
-                "Pessoa 2": "5531972280540",
-                "Pessoa 3": "5531972280540",
-                "Pessoa 4": "5531972280540",
-                "Pessoa 5": "5531972280540",
-                "Pessoa 6": "5531972280540"
+                "$pe1": "$n1",
+                "$pe2": "$n2",
+                "$pe3": "$n3",
+                "$pe4": "$n4",
+                "$pe5": "$n5",
+                "$pe6": "$n6"
             }
         },
         {
@@ -117,15 +160,15 @@
             "type": "link",
             "key": "problem",
             "text": {
-                "Problema 1": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
-                "Problema 2": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
-                "Problema 3": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
-                "Problema 4": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
-                "Problema 5": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
-                "Problema 6": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
-                "Problema 7": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
-                "Problema 8": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
-                "Problema 9": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg"
+                "$p1": "$gp1",
+                "$p2": "$gp2",
+                "$p3": "$gp3",
+                "$p4": "$gp4",
+                "$p5": "$gp5",
+                "$p6": "$gp6",
+                "$p7": "$gp7",
+                "$p8": "$gp8",
+                "$p9": "$gp9"
             }
         },
         {
