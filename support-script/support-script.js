@@ -128,7 +128,7 @@ class SupportScript {
                     break;
 
                 case 'file':
-                    nScript.push(new Media(this, step));
+                    nScript.push(new File(this, step));
                     break;
             }
         }
