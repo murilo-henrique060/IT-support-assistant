@@ -9,6 +9,7 @@
 debug-users.json
 
 # Logs
+log.csv
 logs
 *.log
 npm-debug.log*
