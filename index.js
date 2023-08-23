@@ -2,7 +2,7 @@ const { Client, LocalAuth } = require('whatsapp-web.js');
 const { SupportScript } = require('./support-script/support-script.js');
 const qrCode = require('qrcode-terminal');
 
-const AUTH = !(process.env.AUTH === 'true');
+const AUTH = (process.env.AUTH === 'true' || process.env.AUTH === undefined);
 const DEBUG = (process.env.DEBUG === 'true');
 
 let scriptConfig = require('./script-config.json');

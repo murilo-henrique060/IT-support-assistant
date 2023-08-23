@@ -2,11 +2,15 @@ class Input {
     constructor(script, data) {
         this.script = script;
 
+        this.text = data.text;
+
         this.dest = data.dest;
     }
 
     async run() {
-        await this.script.client.sendMessage(this.script.id, this.text);
+        let text = this.script.substituteVariables(this.text);
+
+        await this.script.client.sendMessage(this.script.id, text);
 
         this.script.listening = true;
     }

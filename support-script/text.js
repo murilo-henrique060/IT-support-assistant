@@ -14,6 +14,8 @@ class Text {
             text = this.text[this.script.variables[this.key]];
         }
 
+        text = this.script.substituteVariables(text);
+
         await this.script.client.sendMessage(this.script.id, text);
         this.script.scriptCounter++;
     }

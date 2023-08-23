@@ -22,6 +22,8 @@ class Select {
             message += `${i + 1} - ${options[i]}\n`;
         }
 
+        message = this.script.substituteVariables(message);
+
         await this.script.client.sendMessage(this.script.id, message);
 
         this.script.listening = true;

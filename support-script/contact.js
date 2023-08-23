@@ -8,7 +8,7 @@ class Contact {
     }
 
     async run() {
-        let number = this.number;
+        let number = this.script.substituteVariables(this.number);
 
         if (this.key) {
             number = this.number[this.script.variables[this.key]];

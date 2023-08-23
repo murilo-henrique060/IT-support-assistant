@@ -3,6 +3,9 @@ const { Link } = require("./link");
 const { Input } = require("./input");
 const { Select } = require("./select");
 const { Contact } = require("./contact");
+const { If } = require("./if");
+const { Media } = require("./media");
+const { File } = require("./file");
 
 const fs = require('fs');
 const csv = require('csv-stringify');
@@ -89,37 +92,57 @@ class SupportScript {
         clearTimeout(this.timeout);
     }
 
+    loadScript(script) {
+        let nScript = [];
+
+        for (let i = 0; i < script.length; i++) {
+            let step = this.substituteVariables(script[i]);
+
+            switch (step.type) {
+                case 'text':
+                    nScript.push(new Text(this, step));
+                    break;
+
+                case 'link':
+                    nScript.push(new Link(this, step));
+                    break;
+
+                case 'input':
+                    nScript.push(new Input(this, step));
+                    break;
+
+                case 'select':
+                    nScript.push(new Select(this, step));
+                    break;
+
+                case 'contact':
+                    nScript.push(new Contact(this, step));
+                    break;
+
+                case 'if':
+                    nScript.push(new If(this, step));
+                    break;
+
+                case 'media':
+                    nScript.push(new Media(this, step));
+                    break;
+
+                case 'file':
+                    nScript.push(new Media(this, step));
+                    break;
+            }
+        }
+
+        return nScript;
+    }
+
     load(scriptConfig) {
         for (let i in scriptConfig.variables) {
             this.variables[i] = scriptConfig.variables[i];
         }
         
-        for (let i = 0; i < scriptConfig.script.length; i++) {
-            let step = this.substituteVariables(scriptConfig.script[i]);
-
-            switch (step.type) {
-                case 'text':
-                    this.script.push(new Text(this, step));
-                    break;
-
-                case 'link':
-                    this.script.push(new Link(this, step));
-                    break;
-
-                case 'input':
-                    this.script.push(new Input(this, step));
-                    break;
-
-                case 'select':
-                    this.script.push(new Select(this, step));
-                    break;
-
-                case 'contact':
-                    this.script.push(new Contact(this, step));
-                    break;
-            }
-        }
-
+        this.script = this.loadScript(scriptConfig.script);
+        
         return this.script;
     }
 
