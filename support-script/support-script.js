@@ -1,11 +1,4 @@
-const { Text } = require("./text");
-const { Link } = require("./link");
-const { Input } = require("./input");
-const { Select } = require("./select");
-const { Contact } = require("./contact");
-const { If } = require("./if");
-const { Media } = require("./media");
-const { File } = require("./file");
+const { STEPS } = require('./steps');
 
 const fs = require('fs');
 const csv = require('csv-stringify');
@@ -13,187 +6,178 @@ const csv = require('csv-stringify');
 const LOG_PATH = process.env.LOG_PATH || 'log.csv';
 
 class SupportScript {
-    constructor(client, id, scriptConfig, supportQueue) {
-        this.client = client;
-        this.queue = supportQueue;
-        this.id = id;
+	constructor(id, manager) {
+		this.id = id;
+		this.manager = manager;
 
-        this.messages = [];
+		this.messsages = [];
 
-        this.script = [];
-        this.variables = {};
+		this.script = [];
+		this.variables = {};
 
-        this.listening = false;
-        this.scriptCounter = 0;
+		this.listening = false;
+		this.scriptCounter = 0;
 
-        this.timeoutTimer = scriptConfig.timeout || 5;
-        this.timeoutMessage = scriptConfig.timeout_message || 'Você demorou muito para responder. Por favor, inicie o atendimento novamente.';
+		this.errorMessage = this.manager.scriptConfig.errorMessage || 'An error has occurred, contact the administrator.';
 
-        this.timeout = null;
+		this.timeoutTimer = this.manager.scriptConfig.timeoutTimer || 5;
+		this.timeoutMessage = this.manager.scriptConfig.timeoutMessage || 'Você demorou muito para responder, por favor, inicie uma nova conversa.';
+		this.timeout = null;
 
-        this.load(scriptConfig);
+		this.load();
+		this.startTimeout();
+	}
+
+	async onMessage(msg) {
+		try {
+			if (this.timeout !== null) {
+				this.stopTimeout();
+			}
+	
+			this.messsages.push({
+				'from': 'user',
+				'message': msg.body,
+				'time': new Date(msg.timstamp * 1000).toLocaleString()
+			});
+	
+			let step = this.script[this.scriptCounter];
+	
+			if (this.listening) {
+				step.input(msg);
+			}
+			
+			while (this.scriptCounter <= this.script.length && !this.listening) {
+				if (this.scriptCounter >= this.script.length) {
+					await this.finish();
+					return;
+				}
+	
+				step = this.script[this.scriptCounter];
+	
+				await step.run();
+			}
+	
+			this.startTimeout();
+
+		} catch (err) {
+			console.error(err);
+			this.manager.client.sendMessage(msg.from, this.errorMessage);
+			await this.finish('script error' + err.message);
+		}
+	}
+
+	async finish(status='script finished') {
+		if (this.timeout !== null) {
+			this.stopTimeout();
+		}
         
-        this.startTimeout();
-    }
+		let currentDate = new Date();
 
-    substituteVariables(data) {
-        if (typeof data === 'object') {
-            if (data instanceof Array) {
-                let response = [];
-    
-                for (let i in data) {
-                    response.push(this.substituteVariables(data[i]));
-                }
-    
-                return response;
-            } else {
-                let response = {};
-    
-                for (let i in data) {
-                    response[this.substituteVariables(i)] = this.substituteVariables(data[i]);
-                }
-    
-                return response;
-            }
-        } else if (typeof data === 'number') {
-            return data;
-        } else if (typeof data === 'string'){
-            let response = [];
-    
-            for (let w of data.split(' ')) {
-                if (w[0] === '$') {
-                    if (this.variables[w]) {
-                        response.push(this.variables[w]);
-                    } else {
-                        response.push(w);
-                    }
-                } else {
-                    response.push(w);
-                }
-            }
-    
-            return response.join(' ');
-        }
-    }
+		let l = [
+			currentDate.valueOf(),
+			currentDate.toLocaleString(),
+			await this.manager.client.getFormattedNumber(this.id),
+			await this.manager.client.getContactById(this.id).pushname,
+			status,
+			this.messages
+		];
 
-    startTimeout() {
-        this.timeout = setTimeout(() => {
-            this.client.sendMessage(this.id, this.timeoutMessage);
-            this.close();
-        }, this.timeoutTimer * 60 * 1000);
-    }
+		try {
+			fs.accessSync(LOG_PATH, fs.constants.F_OK);
 
-    resetTimeout() {
-        this.closeTimeout();
-        this.startTimeout();
-    }
+		} catch (err) {
+			await csv.stringify([['timestamp', 'date', 'phone', 'name', 'status', 'messages']], (err, output) => {
+				fs.appendFileSync(LOG_PATH, output);		
+			});
+		}
 
-    closeTimeout() {
-        clearTimeout(this.timeout);
-    }
+		await csv.stringify([l], (err, output) => {
+			fs.appendFileSync(LOG_PATH, output);		
+		});
+		
+		this.manager.supports.delete(this.id);
+	}
+	
+	startTimeout() {
+		this.timeout = setTimeout(() => {
+			this.manager.client.sendMessage(this.id, this.timeoutMessage);
+			this.finish('user timeout');
+		}, this.timeoutTimer * 60 * 1000);
+	}
 
-    loadScript(script) {
-        let nScript = [];
+	stopTimeout() {
+		clearTimeout(this.timeout);
+		this.timeout = null;
+	}
 
-        for (let i = 0; i < script.length; i++) {
-            let step = this.substituteVariables(script[i]);
-
-            switch (step.type) {
-                case 'text':
-                    nScript.push(new Text(this, step));
-                    break;
-
-                case 'link':
-                    nScript.push(new Link(this, step));
-                    break;
-
-                case 'input':
-                    nScript.push(new Input(this, step));
-                    break;
-
-                case 'select':
-                    nScript.push(new Select(this, step));
-                    break;
-
-                case 'contact':
-                    nScript.push(new Contact(this, step));
-                    break;
-
-                case 'if':
-                    nScript.push(new If(this, step));
-                    break;
-
-                case 'media':
-                    nScript.push(new Media(this, step));
-                    break;
-
-                case 'file':
-                    nScript.push(new File(this, step));
-                    break;
-            }
-        }
-
-        return nScript;
-    }
-
-    load(scriptConfig) {
-        for (let i in scriptConfig.variables) {
-            this.variables[i] = scriptConfig.variables[i];
-        }
+	load() {
+		if ('variables' in this.manager.scriptConfig) {
+			for (let [k, v] of Object.entries(this.manager.scriptConfig.variables)) {
+				this.variables[k] = v;
+			}
+		}
         
-        this.script = this.loadScript(scriptConfig.script);
-        
-        return this.script;
-    }
+		this.script = this.loadScript(this.manager.scriptConfig.script);
+	}
 
-    async run(msg) {
-        this.resetTimeout();
+	loadScript(script) {
+		let newScript = [];
 
-        this.messages.push(msg.body);
+		for (let step of script) {
+			if (step.type in STEPS) {
+				newScript.push(new STEPS[step.type](this, step));
+			}
+		}
 
-        let step = this.script[this.scriptCounter];
+		return newScript;
+	}
 
-        if (this.listening) {
-            step.input(msg);
-        }
-        
-        while (this.scriptCounter < this.script.length && !this.listening) {
-            step = this.script[this.scriptCounter];
+	replaceVariables(data) {
+		switch (typeof data) {
+		case 'object':
+		{
+			if (data instanceof Array) {
+				let response = [];
 
-            await step.run();
-        }
+				for (let item of data) {
+					response.push(this.replaceVariables(item));
+				}
 
-        let finished = this.scriptCounter >= this.script.length;
+				return response;
+			} else {
+				let response = {};
 
-        return finished;
-    }
+				for (let [i, v] of Object.entries(data)) {
+					response[this.replaceVariables(i)] = this.replaceVariables(v);
+				}
 
-    async close() {
-        this.closeTimeout();
-        
-        let dC = new Date();
+				return response;
+			}
+		}
+		
+		case 'string': 
+		{
+			let response = '';
 
-        let day = dC.getDate().toString().padStart(2, '0');
-        let month = dC.getMonth().toString().padStart(2, '0');
-        let year = dC.getFullYear().toString().padStart(4, '0');
+			response = data.replaceAll(/\$\{([a-zA-Z0-9_]+\})/gi, (match) => {
+				let key = match.substring(2, match.length - 1);
+				
+				if (key in this.variables) {
+					return this.variables[key];
+				} else {
+					return match;
+				}
+			});
 
-        let hour = dC.getHours().toString().padStart(2, '0');
-        let minute = dC.getMinutes().toString().padStart(2, '0');
-        let second = dC.getSeconds().toString().padStart(2, '0');
+			return response;
+		}
 
-        let date = `${day}-${month}-${year}`;
-        let time = `${hour}:${minute}:${second}`;
-
-        let number = await this.client.getFormattedNumber(this.id);
-
-        let l = [date, time, number, this.messages];
-
-        csv.stringify([l], (err, output) => {
-            fs.appendFileSync(LOG_PATH, output);
-        });
-
-        this.queue.delete(this.id);
-    }
+		default:
+		{
+			return data;
+		}
+		}
+	}
 }
 
 module.exports = { SupportScript };

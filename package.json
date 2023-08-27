@@ -1,6 +1,6 @@
 {
   "name": "it-support-assistant",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "description": "Whatsapp IT Support Assistant",
   "main": "index.js",
   "scripts": {
@@ -26,6 +26,11 @@
     "whatsapp-web.js": "https://github.com/Julzk/whatsapp-web.js/tarball/jkr_hotfix_7"
   },
   "devDependencies": {
+    "eslint": "^8.48.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-n": "^16.0.2",
+    "eslint-plugin-promise": "^6.1.1",
     "jest": "^29.6.2"
   }
 }
