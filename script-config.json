@@ -1,178 +1,377 @@
 {
-    "timeout": 5,
-    "timeout_message": "O tempo de espera expirou. Por favor, tente novamente.",
+    "timeoutTime": 5,
+    "timeoutMessage": "O tempo de espera expirou. Por favor, tente novamente.",
+    "errorMessage": "Ocorreu um erro durante o suporte. Por favor, contate o administrador.",
     "variables": {
-        "$c1": "Categoria 1",
-        "$c2": "Categoria 2",
-        "$c3": "Categoria 3",
+        "c1": "Categoria 1",
+        "c2": "Categoria 2",
+        "c3": "Categoria 3",
 
-        "$p1": "Problema 1",
-        "$p2": "Problema 2",
-        "$p3": "Problema 3",
-        "$p4": "Problema 4",
-        "$p5": "Problema 5",
-        "$p6": "Problema 6",
-        "$p7": "Problema 7",
-        "$p8": "Problema 8",
-        "$p9": "Problema 9",
+        "p1": "Problema 1",
+        "p2": "Problema 2",
+        "p3": "Problema 3",
+        "p4": "Problema 4",
+        "p5": "Problema 5",
+        "p6": "Problema 6",
+        "p7": "Problema 7",
+        "p8": "Problema 8",
+        "p9": "Problema 9",
 
-        "$pe1": "Pessoa 1",
-        "$pe2": "Pessoa 2",
-        "$pe3": "Pessoa 3",
-        "$pe4": "Pessoa 4",
-        "$pe5": "Pessoa 5",
-        "$pe6": "Pessoa 6",
+        "pe1": "Pessoa 1",
+        "pe2": "Pessoa 2",
+        "pe3": "Pessoa 3",
+        "pe4": "Pessoa 4",
+        "pe5": "Pessoa 5",
+        "pe6": "Pessoa 6",
 
-        "$n1": "5531972280540",
-        "$n2": "5531972280540",
-        "$n3": "5531972280540",
-        "$n4": "5531972280540",
-        "$n5": "5531972280540",
-        "$n6": "5531972280540",
+        "n1": "5531972280540",
+        "n2": "5531972280540",
+        "n3": "5531972280540",
+        "n4": "5531972280540",
+        "n5": "5531972280540",
+        "n6": "5531972280540",
 
-        "$gp1": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
-        "$gp2": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
-        "$gp3": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
-        "$gp4": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
-        "$gp5": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
-        "$gp6": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
-        "$gp7": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
-        "$gp8": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
-        "$gp9": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg"
-        
+        "gp1": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
+        "gp2": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
+        "gp3": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
+        "gp4": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
+        "gp5": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
+        "gp6": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
+        "gp7": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
+        "gp8": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
+        "gp9": "https://chat.whatsapp.com/BSa30NFei7jCCg91vxSqVg",
+
+        "img1": "https://i.pinimg.com/1200x/25/e5/13/25e513fc1c5edbc3ecc159525f2d22b1.jpg",
+        "img2": "https://static.wikia.nocookie.net/onepiece/images/a/af/Tony_Tony_Chopper_Anime_Post_Timeskip_Infobox.png/revision/latest?cb=20130428202154",
+        "img3": "https://static.wikia.nocookie.net/onepiece/images/e/e6/Tony_Tony_Chopper_Anime_Pre_Timeskip_Infobox.png/revision/latest?cb=20160207143020",
+
+        "file1": "./files/chopper.jpg",
+        "file2": "./files/chopper1.jpg",
+        "file3": "./log.csv",
+        "file4": "./script-config.json"
     },
     "script": [
         {
             "type": "text",
-            "text": "Olá, sou um assistente virtual"
+            "text": "Olá, eu sou um bot" 
         },
         {
-            "type": "select",
+            "type": "input",
+            "text": "Qual é o seu nome?",
+            "dest": "nome"
+        },
+        {
+            "type": "text",
+            "text": "Olá ${nome}, eu sou um bot" 
+        },
+        {
+            "type": "text",
+            "key": "nome",
+            "text": {
+                "a": "Eu conheco você ${nome}",
+                "b": "Eu conheco você ${nome}"
+            }
+        },
+        {
+            "type": "text",
+            "key": "nome",
+            "text": {
+                "a": "Eu conheco você ${nome}",
+                "b": "Eu conheco você ${nome}"
+            },
+            "notDefined": "Eu não conheco você, ${nome}"
+        },
+        {
+            "type": "input",
             "text": "Selecione uma categoria para prosseguir:",
             "dest": "category",
             "options": [
-                "$c1",
-                "$c2",
-                "$c3"
+                "${c1}",
+                "${c2}",
+                "${c3}"
             ]
         },
         {
-            "type": "select",
-            "text": "Especifique seu problema:",
+            "type": "text",
+            "text": "Você selecionou a categoria ${category}"
+        },
+        {
+            "type": "input",
+            "text": "Selecione um problema para prosseguir:",
             "key": "category",
             "dest": "problem",
             "options": {
-                "$c1" : [
-                    "$p1",
-                    "$p2",
-                    "$p3"
+                "${c1}" : [
+                    "${p1}",
+                    "${p2}",
+                    "${p3}"
                 ],
-                "$c2" : [
-                    "$p4",
-                    "$p5"
+                "${c2}" : [
+                    "${p4}",
+                    "${p5}"
                 ],
-                "$c3" : [
-                    "$p6",
-                    "$p7",
-                    "$p8",
-                    "$p9"
+                "${c3}" : [
+                    "${p6}",
+                    "${p7}",
+                    "${p8}",
+                    "${p9}"
                 ]
             }
         },
         {
-            "type": "select",
+            "type": "text",
+            "text": "Você selecionou o problema ${problem}"
+        },
+        {
+            "type": "input",
             "text": "Selecione um dos atendentes disponíveis:",
             "key": "problem",
             "dest": "person",
             "options": {
-                "$p1": [
-                    "$pe1",
-                    "$pe2",
-                    "$pe4"
+                "${p1}": [
+                    "${pe1}",
+                    "${pe2}",
+                    "${pe4}"
                 ],
-                "$p2": [
-                    "$pe3",
-                    "$pe5",
-                    "$pe6"
+                "${p2}": [
+                    "${pe3}",
+                    "${pe5}",
+                    "${pe6}"
                 ],
-                "$p3": [
-                    "$pe1",
-                    "$pe2",
-                    "$pe3",
-                    "$pe4",
-                    "$pe5",
-                    "$pe6"
+                "${p3}": [
+                    "${pe1}",
+                    "${pe2}",
+                    "${pe3}",
+                    "${pe4}",
+                    "${pe5}",
+                    "${pe6}"
                 ],
-                "$p4": [
-                    "$pe1",
-                    "$pe2",
-                    "$pe3",
-                    "$pe4",
-                    "$pe5",
-                    "$pe6"
+                "${p4}": [
+                    "${pe1}",
+                    "${pe2}",
+                    "${pe3}",
+                    "${pe4}",
+                    "${pe5}",
+                    "${pe6}"
                 ],
-                "$p5": [
-                    "$pe2",
-                    "$pe3",
-                    "$pe4",
-                    "$pe5"
+                "${p5}": [
+                    "${pe2}",
+                    "${pe3}",
+                    "${pe4}",
+                    "${pe5}"
                 ],                
-                "$p6": [
-                    "$pe2",
-                    "$pe3",
-                    "$pe6"
+                "${p6}": [
+                    "${pe2}",
+                    "${pe3}",
+                    "${pe6}"
                 ],
-                "$p7": [
-                    "$pe2",
-                    "$pe4",
-                    "$pe6"
+                "${p7}": [
+                    "${pe2}",
+                    "${pe4}",
+                    "${pe6}"
                 ],
-                "$p8": [
-                    "$pe1",
-                    "$pe2",
-                    "$pe3",
-                    "$pe6"
+                "${p8}": [
+                    "${pe1}",
+                    "${pe2}",
+                    "${pe3}",
+                    "${pe6}"
                 ],
-                "$p9": [
-                    "$pe5",
-                    "$pe6"
+                "${p9}": [
+                    "${pe5}",
+                    "${pe6}"
                 ]
             }
+        },
+        {
+            "type": "text",
+            "text": "Você selecionou o atendente ${person}"
+        },
+        {
+            "type": "contact",
+            "number": "${n1}"
         },
         {
             "type": "contact",
             "key": "person",
             "number": {
-                "$pe1": "$n1",
-                "$pe2": "$n2",
-                "$pe3": "$n3",
-                "$pe4": "$n4",
-                "$pe5": "$n5",
-                "$pe6": "$n6"
+                "${pe1}": "${n1}",
+                "${pe2}": "${n2}",
+                "${pe3}": "${n3}",
+                "${pe4}": "${n4}",
+                "${pe5}": "${n5}",
+                "${pe6}": "${n6}"
             }
         },
         {
-            "type": "text",
-            "text": "Acesse o link abaixo para entrar em contato com o grupo relacionado ao seu problema:"
+            "type": "link",
+            "text": "clique neste link para acessar o grupo de suporte: ${gp1}"
         },
         {
             "type": "link",
             "key": "problem",
             "text": {
-                "$p1": "$gp1",
-                "$p2": "$gp2",
-                "$p3": "$gp3",
-                "$p4": "$gp4",
-                "$p5": "$gp5",
-                "$p6": "$gp6",
-                "$p7": "$gp7",
-                "$p8": "$gp8",
-                "$p9": "$gp9"
+                "${p1}": "${gp1}",
+                "${p2}": "${gp2}",
+                "${p3}": "${gp3}",
+                "${p4}": "${gp4}",
+                "${p5}": "${gp5}",
+                "${p6}": "${gp6}",
+                "${p7}": "${gp7}",
+                "${p8}": "${gp8}",
+                "${p9}": "${gp9}"
+            }
+        },
+        {
+            "type": "media",
+            "from": "url",
+            "path": "${img1}"
+        },
+        {
+            "type": "media",
+            "from": "url",
+            "key": "person",
+            "path": {
+                "${pe1}": "${img1}",
+                "${pe2}": "${img2}",
+                "${pe3}": "${img3}",
+                "${pe4}": "${img1}",
+                "${pe5}": "${img2}",
+                "${pe6}": "${img3}"
+            },
+            "caption": "Imagem 1"
+        },
+        {
+            "type": "media",
+            "from": "path",
+            "path": "${file1}",
+            "caption": "Imagem 2"
+        },
+        {
+            "type": "media",
+            "from": "path",
+            "key": "person",
+            "path": {
+                "${pe1}": "${file1}",
+                "${pe2}": "${file2}",
+                "${pe3}": "${file1}",
+                "${pe4}": "${file2}",
+                "${pe5}": "${file1}",
+                "${pe6}": "${file2}"
+            }
+        },
+        {
+            "type": "file",
+            "from": "url",
+            "path": "${img1}"
+        },
+        {
+            "type": "file",
+            "from": "url",
+            "key": "person",
+            "path": {
+                "${pe1}": "${img1}",
+                "${pe2}": "${img2}",
+                "${pe3}": "${img3}",
+                "${pe4}": "${img1}",
+                "${pe5}": "${img2}",
+                "${pe6}": "${img3}"
+            },
+            "caption": "Imagem 1"
+        },
+        {
+            "type": "file",
+            "from": "path",
+            "path": "${file1}",
+            "caption": "Imagem 2"
+        },
+        {
+            "type": "file",
+            "from": "path",
+            "key": "person",
+            "path": {
+                "${pe1}": "${file1}",
+                "${pe2}": "${file2}",
+                "${pe3}": "${file3}",
+                "${pe4}": "${file4}",
+                "${pe5}": "${file1}",
+                "${pe6}": "${file2}"
+            }
+        },
+        {
+            "type": "if",
+            "key": "person",
+            "options": {
+                "${pe1}": [
+                    {
+                        "type": "text",
+                        "text": "Você selecionou o atendente ${pe1}"
+                    }
+                ],
+                "${pe2}": [
+                    {
+                        "type": "text",
+                        "text": "Você selecionou o atendente ${pe2}"
+                    }
+                ],
+                "${pe3}": [
+                    {
+                        "type": "text",
+                        "text": "Você selecionou o atendente ${pe3}"
+                    }
+                ],
+                "${pe4}": [
+                    {
+                        "type": "text",
+                        "text": "Você selecionou o atendente ${pe4}"
+                    }
+                ],
+                "${pe5}": [
+                    {
+                        "type": "text",
+                        "text": "Você selecionou o atendente ${pe5}"
+                    }
+                ],
+                "${pe6}": [
+                    {
+                        "type": "text",
+                        "text": "Você selecionou o atendente ${pe6}"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "if",
+            "key": "person",
+            "options": {
+                "${pe1}": [
+                    {
+                        "type": "text",
+                        "text": "Você selecionou o atendente ${pe1}"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "if",
+            "key": "person",
+            "default": [
+                {
+                    "type": "text",
+                    "text": "Você selecionou o atendente ${person}"
+                }
+            ],
+            "options": {
+                "${pe1}": [
+                    {
+                        "type": "text",
+                        "text": "Você selecionou o atendente ${pe1}"
+                    }
+                ]
             }
         },
         {
             "type": "text",
-            "text": "Atendimento encerrado. Obrigado por entrar em contato."
+            "text": "Obrigado por utilizar o nosso serviço!"
         }
     ]
 }
