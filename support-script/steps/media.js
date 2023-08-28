@@ -4,7 +4,6 @@ const { Step } = require('./step');
 class Media extends Step {
 	constructor(supportScript, data) {
 		super(supportScript, data);
-		this.script = supportScript;
 
 		this.caption = data.caption || '';
 
@@ -19,8 +18,8 @@ class Media extends Step {
 		let caption = this.replaceVariables(this.caption);
 		let path = this.replaceVariables(this.path);
 
-		if (this.keyText) {
-			caption = this.getOption(caption, this.keyText);
+		if (this.captionKey) {
+			caption = this.getOption(caption, this.captionKey);
 			caption = this.replaceVariables(caption);
 		}
 

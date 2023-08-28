@@ -10,8 +10,8 @@ class File extends Media {
 		let caption = this.replaceVariables(this.caption);
 		let path = this.replaceVariables(this.path);
 
-		if (this.keyText) {
-			caption = this.getOption(caption, this.keyText);
+		if (this.captionKeyt) {
+			caption = this.getOption(caption, this.captionKey);
 			caption = this.replaceVariables(caption);
 		}
 

@@ -16,7 +16,7 @@ class Step {
 	async sendMessage(msg, options = {}) {
 		let message = await this.supportScript.manager.client.sendMessage(this.supportScript.id, msg, options);
 
-		this.supportScript.messsages.push({
+		this.supportScript.messages.push({
 			'from': 'bot',
 			'message': msg,
 			'time': new Date(message.timestamp * 1000).toLocaleString()
@@ -44,9 +44,11 @@ class Step {
 	}
 
 	getVariable(key) {
-		let value = this.supportScript.variables[key] || key;
+		let value;
 
-		if (value === undefined) {
+		if (this.supportScript.variables.has(key)) {
+			value = this.supportScript.variables.get(key);
+		} else {
 			throw new Error(`Variável ${key} não encontrada.`);
 		}
 		
@@ -54,7 +56,7 @@ class Step {
 	}
 
 	setVariable(key, value) {
-		this.supportScript.variables[key] = value;
+		this.supportScript.variables.set(key, value);
 	}
 
 	getOption(options, key) {

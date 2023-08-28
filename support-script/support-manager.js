@@ -13,27 +13,38 @@ class SupportManager{
 		this.client = client;
 	}
 
-	handleSupport(msg) {
-		if (!this.supports.has(msg.from)) {
-			this.supports.set(msg.from, new SupportScript(msg.from, this));
+	async handleSupport(id, msg) {
+		if (!this.supports.has(id)) {
+			this.supports.set(id, new SupportScript(id, this));
 		}
 
-		this.supports.get(msg.from).onMessage(msg);
+		await this.supports.get(id).onMessage(msg);
+	}
+
+	async handleConnection(id, msg) {
+		await this.connections.get(id).response(msg);
 	}
 
 	async onMessage(msg) {
-		if (DEBUG) {
-			if (!DEBUGERS.includes(msg.from)){
-				return;	
-			}
+		if (msg.isStatus) {
+			return;
 		}
 
-		let chat = msg.getChat();
+		let chat = await msg.getChat();
+		let id = chat.id._serialized;
 
 		if (chat.isGroup) {
-			return;
+			if (this.connections.has(id)) {
+				await this.handleConnection(id, msg);
+			}
 		} else {
-			this.handleSupport(msg);
+			if (DEBUG) {
+				if (!DEBUGERS.includes(msg.from)){
+					return;	
+				}
+			}
+
+			await this.handleSupport(id, msg);
 		}
 
 	} 

@@ -34,7 +34,7 @@ class Input extends Step {
 			}
 
 			for (let [i, v] of Object.entries(options)) {
-				message += `${parseInt(i) + 1} - ${this.replaceVariables(v)}\n`;
+				message += `  ${parseInt(i) + 1} - ${this.replaceVariables(v)}\n`;
 			}
 		}
 

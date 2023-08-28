@@ -8,12 +8,21 @@ const LOG_PATH = process.env.LOG_PATH || 'log.csv';
 class SupportScript {
 	constructor(id, manager) {
 		this.id = id;
+
+		manager.client.getFormattedNumber(id).then( number => {
+			this.number = number;
+		});
+
+		manager.client.getContactById(id).then( contact => {
+			this.pushname = contact.pushname;
+		});
+
 		this.manager = manager;
 
-		this.messsages = [];
+		this.messages = [];
 
 		this.script = [];
-		this.variables = {};
+		this.variables = new Map();
 
 		this.listening = false;
 		this.scriptCounter = 0;
@@ -28,13 +37,28 @@ class SupportScript {
 		this.startTimeout();
 	}
 
+	async steps() {
+		while (this.scriptCounter < this.script.length && !this.listening) {
+			let step = this.script[this.scriptCounter];
+
+			await step.run();
+		}
+
+		if (this.scriptCounter >= this.script.length) {
+			await this.finish();
+			return true;
+		}
+
+		return false;
+	}
+
 	async onMessage(msg) {
 		try {
 			if (this.timeout !== null) {
 				this.stopTimeout();
 			}
 	
-			this.messsages.push({
+			this.messages.push({
 				'from': 'user',
 				'message': msg.body,
 				'time': new Date(msg.timstamp * 1000).toLocaleString()
@@ -46,15 +70,10 @@ class SupportScript {
 				step.input(msg);
 			}
 			
-			while (this.scriptCounter <= this.script.length && !this.listening) {
-				if (this.scriptCounter >= this.script.length) {
-					await this.finish();
-					return;
-				}
-	
-				step = this.script[this.scriptCounter];
-	
-				await step.run();
+			let done = await this.steps();
+
+			if (done) {
+				return;
 			}
 	
 			this.startTimeout();
@@ -69,6 +88,12 @@ class SupportScript {
 	async finish(status='script finished') {
 		if (this.timeout !== null) {
 			this.stopTimeout();
+		}
+
+		for (let connection of this.manager.connections.values()) {
+			if (connection.users.has(this.id)) {
+				await connection.removeUser(this);
+			}
 		}
         
 		let currentDate = new Date();
@@ -113,7 +138,7 @@ class SupportScript {
 	load() {
 		if ('variables' in this.manager.scriptConfig) {
 			for (let [k, v] of Object.entries(this.manager.scriptConfig.variables)) {
-				this.variables[k] = v;
+				this.variables.set(k, v);
 			}
 		}
         
@@ -162,8 +187,8 @@ class SupportScript {
 			response = data.replaceAll(/\$\{([a-zA-Z0-9_]+\})/gi, (match) => {
 				let key = match.substring(2, match.length - 1);
 				
-				if (key in this.variables) {
-					return this.variables[key];
+				if (this.variables.has(key)) {
+					return this.variables.get(key);
 				} else {
 					return match;
 				}

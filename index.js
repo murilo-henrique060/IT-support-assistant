@@ -1,5 +1,6 @@
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const { SupportManager } = require('./support-script/support-manager.js');
+const scriptConfig = require('./script-config.json');
 const qrCode = require('qrcode-terminal');
 
 const AUTH = (process.env.AUTH === 'true' || process.env.AUTH === undefined);
@@ -13,7 +14,7 @@ if (AUTH) {
 } else {
 	client = new Client();
 }
-const supportManager = new SupportManager(client);
+const supportManager = new SupportManager(client, scriptConfig);
 
 client.on('qr', (qr) => {
 	console.log('Scan the QR code to login.');
